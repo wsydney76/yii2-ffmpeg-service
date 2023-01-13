@@ -1,6 +1,6 @@
-# Yii FFMpeg Service
+# Yii FFmpeg Service
 
-This is a workaround for creating poster images from videos in case FFMpeg is not installed.
+This is a workaround for creating poster images from videos in case FFmpeg is not installed.
 
 Call it like this:
 
