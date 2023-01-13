@@ -7,29 +7,33 @@ use Exception;
 use FFMpeg\Coordinate\TimeCode;
 use FFMpeg\FFMpeg;
 use yii\helpers\FileHelper;
+use function extract;
 use function is_dir;
 use function is_file;
+use const EXTR_OVERWRITE;
 
 class FFMpegService
 {
-    public function createPoster(Video $videoModel, $seconds = 60, $force = false)
+    public function createPoster(array $paths, $seconds = 60, $force = false): array
     {
-        $videoPath = $videoModel->getVideoPath();
-        $posterPath = $videoModel->getPosterPath();
+        extract($paths, EXTR_OVERWRITE);
 
         if (!is_file($videoPath)) {
-            $videoModel->addError('createPoster', 'Video file does not exist');
-            return false;
+            return [
+                'success' => false,
+                'message' => "$videoPath not found."
+            ];
         }
 
         if (!$force && is_file($posterPath)) {
-            $videoModel->addError('createPoster', 'Poster file exists');
-            return false;
+            return [
+                'success' => false,
+                'message' => "$posterPath exists and no force."
+            ];
         }
 
-        $folderPath = $videoModel->getPosterFolderPath();
-        if (!is_dir($folderPath)) {
-            FileHelper::createDirectory($folderPath);
+        if (!is_dir($posterFolderPath)) {
+            FileHelper::createDirectory($posterFolderPath);
         }
 
         // FileHelper::cycle($posterPath, 4);
@@ -40,9 +44,15 @@ class FFMpegService
             $frame = $video->frame(TimeCode::fromSeconds($seconds));
             $frame->save($posterPath);
         } catch (Exception $e) {
-            $videoModel->addError('createPoster', $e->getMessage());
-            return false;
+            return [
+                'success' => false,
+                'message' => "Error creating image, {$e->getMessage()}"
+            ];
         }
-        return true;
+
+        return [
+            'success' => true,
+            'message' => "Poster created."
+        ];
     }
 }

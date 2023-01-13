@@ -40,22 +40,10 @@ class ArtController extends Controller
         }
 
         /** @var Video $video */
-        $id = Yii::$app->request->getQueryParam('id');
+        $paths = Yii::$app->request->getQueryParam('paths');
 
-        if (!$id) {
-            throw new InvalidArgumentException('Id missing');
-        }
-
-//        if (!$id = Yii::$app->security->validateData($id)) {
-//            return $this->asErrorJson('Ungültige ID');
-//        }
-
-        $video = Video::findOne($id);
-        if (!$video) {
-            return $this->asJson([
-                'success' => false,
-                'message' => 'Video nicht gefunden'
-            ]);
+        if (!$paths) {
+            throw new InvalidArgumentException('Paths missing');
         }
 
         $seconds = Yii::$app->request->getQueryParam('seconds');
@@ -63,17 +51,9 @@ class ArtController extends Controller
             throw new \http\Exception\InvalidArgumentException('seconds missing');
         }
 
-        if (!Yii::$app->ffmpeg->createPoster($video, $seconds, true)) {
-            return $this->asJson([
-                'success' => false,
-                'message' => $video->getFirstError('createPoster')
-            ]);
-        }
+       $result = Yii::$app->ffmpeg->createPoster($paths, $seconds, true);
 
-        return $this->asJson([
-            'success' => true,
-            'message' => 'Poster created'
-        ]);
+        return $this->asJson($result);
     }
 
 
