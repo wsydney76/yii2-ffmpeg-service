@@ -2,7 +2,7 @@
 
 namespace app\services;
 
-use app\models\Video;
+
 use Exception;
 use FFMpeg\Coordinate\TimeCode;
 use FFMpeg\FFMpeg;
