@@ -1,5 +1,7 @@
 <?php
 
+use app\services\FFMpegService;
+
 $params = require __DIR__ . '/params.php';
 $db = require __DIR__ . '/db.php';
 
@@ -49,6 +51,10 @@ $config = [
             'rules' => [
             ],
         ],
+
+        'ffmpeg' => function() {
+            return new FFMpegService();
+        }
 
     ],
     'params' => $params,
