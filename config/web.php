@@ -1,6 +1,6 @@
 <?php
 
-use app\services\FFMpegService;
+use app\services\FFmpegService;
 
 $params = require __DIR__ . '/params.php';
 $db = require __DIR__ . '/db.php';
@@ -47,13 +47,13 @@ $config = [
 
         'urlManager' => [
             'enablePrettyUrl' => true,
-            'showScriptName' => false,
+            'showScriptName' => true,
             'rules' => [
             ],
         ],
 
         'ffmpeg' => function() {
-            return new FFMpegService();
+            return new FFmpegService();
         }
 
     ],

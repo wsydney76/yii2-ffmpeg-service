@@ -1,6 +1,10 @@
 # Yii FFmpeg Service
 
-This is a workaround for creating poster images from videos in case FFmpeg is not installed.
+Temporary workaround.
+
+This is a service that lets you create poster images from videos in case your app runs in an environment where FFmpeg is not installed.
+
+Scenario: Your app runs in a DDEV container, this service runs on the host machine.
 
 Call it like this:
 

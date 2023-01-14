@@ -12,7 +12,7 @@ use function is_dir;
 use function is_file;
 use const EXTR_OVERWRITE;
 
-class FFMpegService
+class FFmpegService
 {
     public function createPoster(array $paths, $seconds = 60, $force = false): array
     {
